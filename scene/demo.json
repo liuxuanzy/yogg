@@ -1,0 +1,41 @@
+{
+    "hero": {
+        "hp": 30,
+        "armor": 40,
+        "name": "我方英雄"
+    },
+    "enemy": {
+        "hp": 20,
+        "name": "敌方英雄"
+    },
+    "friendlyMinions": [
+        {
+            "hp": 6,
+            "ap": 5,
+            "name": "格斗士"
+        }
+    ],
+    "enemyMinions": [
+        {
+            "hp": 4,
+            "ap": 5,
+            "name": "囚徒"
+        },
+        {
+            "hp": 4,
+            "ap": 0,
+            "name": "游学者、秋日"
+        },
+        {
+            "hp": 6,
+            "ap": 6,
+            "name": "弗丁",
+            "shield": true
+        },
+        {
+            "hp": 7,
+            "ap": 6,
+            "name": "毕游侠"
+        }
+    ]
+}

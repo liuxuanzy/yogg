@@ -1,0 +1,14 @@
+{
+    "hero": {
+        "hp": 30,
+        "armor": 2000,
+        "name": "我方英雄"
+    },
+    "enemy": {
+        "hp": 30,
+        "armor": 2000,
+        "name": "敌方英雄"
+    },
+    "friendlyMinions": [],
+    "enemyMinions": []
+}

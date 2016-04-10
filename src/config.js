@@ -1858,404 +1858,404 @@ module.exports = [
     },
 
     // 狂野开始
-    {
-        name: '复仇',
-        cost: 1,
-        description: '奥秘：当你的随从死亡时，使一个随机友方随从获得+3/+2。',
-        deal: scene => {
-            scene.hero.addSecret('复仇');
-        }
-    },
-    {
-        name: '转生',
-        cost: 2,
-        description: '消灭一个随从，然后将其复活，并恢复所有生命值。',
-        deal: scene => {
-
-            let role = scene.randRole(true);
-
-            // 简单用恢复满血替代
-            if (role) {
-                role.current = role.hp;
-            }
-
-        }
-    },
-    {
-        name: '复制',
-        cost: 3,
-        description: '当一个友方随从死亡时，将两个该随从的复制置入你的手牌。',
-        deal: scene => {
-            scene.hero.addSecret('复制');
-        }
-    },
-    {
-        name: '剧毒之种',
-        cost: 4,
-        description: '消灭所有随从，并召唤等量的2/2的树人代替他们。',
-        deal: scene => {
-
-            let count = scene.allRole(true, true).length;
-            let roles = scene.allRole(true);
-
-            for (let role of roles) {
-                role.current = 0;
-            }
-
-            for (let i = 0; i < count; i++) {
-                scene.addEnemyMinion({
-                    name: '树人',
-                    ap: 2,
-                    hp: 2
-                });
-            }
-
-            for (let i = 0; i < (roles.length - count); i++) {
-                scene.addMinion({
-                    name: '树人',
-                    ap: 2,
-                    hp: 2
-                });
-            }
-        }
-    },
-    {
-        name: '纳鲁之光',
-        cost: 1,
-        description: '恢复3点生命值。如果该目标仍处于受伤状态，则召唤一个圣光护卫者。',
-        deal: scene => {
-
-            let role = scene.randRole();
-
-            role.restoreHealth(3);
-
-            if ('current' in role && role.current < role.hp || !('current' in role) && role.hp < 30) {
-                scene.addMinion({
-                    name: '圣光护卫者',
-                    ap: 1,
-                    hp: 3
-                })
-            }
-        }
-    },
-    {
-        name: '暗色炸弹',
-        cost: 2,
-        description: '造成3点伤害。',
-        deal: scene => {
-            let role = scene.randRole();
-
-            if (role) {
-                role.dealDamage(3);
-            }
-        }
-    },
-    {
-        name: '不稳定的传送门',
-        cost: 2,
-        description: '将一个随机随从卡牌加入你的手牌。该随从的法力值消耗减少(3)点。',
-        deal: scene => {
-            scene.hero.supplementCard(1);
-        }
-    },
-    {
-        name: '光明圣印',
-        cost: 2,
-        description: '为你的英雄恢复4点生命值，并在本回合中获得+2攻击力。',
-        deal: scene => {
-            scene.hero.restoreHealth(4);
-            scene.hero.ap += 2;
-        }
-    },
-    {
-        name: '假死',
-        cost: 2,
-        description: '触发所有友方随从亡语效果。'
-    },
-    {
-        name: '连环爆裂',
-        cost: 2,
-        description: '造成3到6点伤害，过载：(1)。',
-        deal: scene => {
-            let role = scene.randRole();
-
-            if (role) {
-                role.dealDamage(3 + Math.floor(Math.random() * 3));
-            }
-        }
-    },
-    {
-        name: '烈焰轰击',
-        cost: 2,
-        description: '对一个随机敌方随从造成4点伤害。',
-        deal: scene => {
-
-            let role = scene.randRole(true, true);
-
-            if (role) {
-                role.dealDamage(4);
-            }
-        }
-    },
-    {
-        name: '召唤宠物',
-        cost: 2,
-        description: '抽一张牌。如果该牌是野兽牌，则其法力值消耗减少(4)点。',
-        deal: scene => {
-            scene.hero.drawCard(1);
-        }
-    },
-    {
-        name: '弹射之刃',
-        cost: 3,
-        description: '对一个随机随从造成1点伤害。重复此效果，直到某个随从死亡。',
-        deal: scene => {
-
-            let role = null;
-
-            do {
-
-                role = scene.randRole(true);
-
-                if (role) {
-                    role.dealDamage(1);
-                }
-            }
-            while (role && !role.dead)
-        }
-    },
-    {
-        name: '维纶的恩泽',
-        cost: 3,
-        description: '使一个随从获得+2/+4并具有法术伤害+1。',
-        deal: scene => {
-
-            let role = scene.randRole(true);
-
-            if (role) {
-                role.ap += 2;
-                role.hp += 4;
-                role.current += 4;
-            }
-        }
-    },
-    {
-        name: '作战动员',
-        cost: 3,
-        description: '召唤三个1/1白银之手新兵，装备一把1/4的武器。',
-        deal: scene => {
-
-            scene.addMinion({
-                name: '白银之手新兵',
-                ap: 1,
-                hp: 1
-            });
-
-            scene.addMinion({
-                name: '白银之手新兵',
-                ap: 1,
-                hp: 1
-            });
-
-            scene.addMinion({
-                name: '白银之手新兵',
-                ap: 1,
-                hp: 1
-            });
-        }
-    },
-    {
-        name: '暗中破坏',
-        cost: 4,
-        description: '消灭一个随机敌方随从，连击：并且摧毁你的对手的武器。',
-        deal: scene => {
-
-            let role = scene.randRole(true, true);
-
-            if (role) {
-                role.current = 0;
-            }
-        }
-    },
-    {
-        name: '麦迪文的残影',
-        cost: 4,
-        description: '复制你的所有随从，并将其置入你的手牌。',
-        deal: scene => {
-            let count = scene.friendlyMinions.filter(a => !a.dead).length;
-
-            scene.hero.supplementCard(count);
-        }
-    },
-    {
-        name: '先祖召唤',
-        cost: 4,
-        description: '每个玩家从手牌中将一个随机随从置入战场。'
-    },
-    {
-        name: '小鬼爆破',
-        cost: 4,
-        description: '对一个随从造成2-4点伤害。每造成1点伤害，便召唤一个1/1的小鬼。',
-        deal: scene => {
-
-            let damage = 2 + Math.floor(Math.random() * 3);
-            let role = scene.randRole(true);
-
-            if(role){
-
-                role.dealDamage(damage);
-
-                for (let i = 0; i < damage; i++) {
-                    scene.addMinion({
-                        name: '小鬼',
-                        ap: 1,
-                        hp: 1
-                    });
-                }
-            }
-        }
-    },
-    {
-        name: '修补匠的磨刀油',
-        cost: 4,
-        description: '使你的武器获得+3攻击力。连击：使一个随机友方随从获得+3攻击力。'
-    },
-    {
-        name: '恶魔之心',
-        cost: 5,
-        description: '对一个随从造成5点伤害，如果该随从是友方恶魔，则改为使其获得+5/+5。',
-        deal: scene => {
-
-            let role = scene.randRole(true);
-
-            if (role) {
-                role.dealDamage(5);
-            }
-        }
-    },
-    {
-        name: '眼镜蛇射击',
-        cost: 5,
-        description: '对一个随从和敌方英雄造成3点伤害。',
-        deal: scene => {
-
-            let role = scene.randRole(true);
-
-            if (role) {
-                role.dealDamage(3);
-            }
-
-            scene.enemy.dealDamage(3);
-        }
-    },
-    {
-        name: '黑暗低语者',
-        cost: 6,
-        description: '抉择：召唤5个小精灵；或者使一个随从获得+5/+5并具有嘲讽。',
-        deal: scene => {
-
-            if (Math.random() < 0.5) {
-
-                let role = scene.randRole(true);
-
-                if (role) {
-                    role.hp += 5;
-                    role.current += 5;
-                    role.ap += 5;
-                }
-                else {
-
-                    scene.addMinion({
-                        name: '小精灵',
-                        ap: 1,
-                        hp: 1
-                    });
-
-                    scene.addMinion({
-                        name: '小精灵',
-                        ap: 1,
-                        hp: 1
-                    });
-
-                    scene.addMinion({
-                        name: '小精灵',
-                        ap: 1,
-                        hp: 1
-                    });
-
-                    scene.addMinion({
-                        name: '小精灵',
-                        ap: 1,
-                        hp: 1
-                    });
-
-                    scene.addMinion({
-                        name: '小精灵',
-                        ap: 1,
-                        hp: 1
-                    });
-                }
-            }
-        }
-    },
-    {
-        name: '回收',
-        cost: 6,
-        description: '将一个敌方随从洗回你的对手的牌库。',
-        deal: scene => {
-
-            let role = scene.randRole(true, true);
-
-            if (role) {
-                role.current = 0;
-                scene.enemy.pushStack(1);
-            }
-        }
-    },
-    {
-        name: '圣光炸弹',
-        cost: 6,
-        description: '对所有随从造成等同于其攻击力的伤害。',
-        deal: scene => {
-
-            let roles = scene.allRole(true);
-
-            for (let role of roles) {
-                role.dealDamage(role.ap);
-            }
-        }
-    },
-    {
-        name: '重碾',
-        cost: 7,
-        description: '消灭一个随从。如果你控制任何受伤的随从，该法术的法力值消耗减少(4)点。',
-        deal: scene => {
-
-            let role = scene.randRole(true, true);
-
-            if (role) {
-                role.current = 0;
-            }
-        }
-    },
-    {
-        name: '生命之树',
-        cost: 9,
-        description: '为所有角色恢复所有生命值。',
-        deal: scene => {
-
-            let roles = scene.allRole();
-
-            for (let role of roles) {
-                if ('current' in role) {
-                    role.current = role.hp;
-                }
-                else {
-                    role.hp = 30;
-                }
-            }
-        }
-    },
+    //{
+    //    name: '复仇',
+    //    cost: 1,
+    //    description: '奥秘：当你的随从死亡时，使一个随机友方随从获得+3/+2。',
+    //    deal: scene => {
+    //        scene.hero.addSecret('复仇');
+    //    }
+    //},
+    //{
+    //    name: '转生',
+    //    cost: 2,
+    //    description: '消灭一个随从，然后将其复活，并恢复所有生命值。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true);
+    //
+    //        // 简单用恢复满血替代
+    //        if (role) {
+    //            role.current = role.hp;
+    //        }
+    //
+    //    }
+    //},
+    //{
+    //    name: '复制',
+    //    cost: 3,
+    //    description: '当一个友方随从死亡时，将两个该随从的复制置入你的手牌。',
+    //    deal: scene => {
+    //        scene.hero.addSecret('复制');
+    //    }
+    //},
+    //{
+    //    name: '剧毒之种',
+    //    cost: 4,
+    //    description: '消灭所有随从，并召唤等量的2/2的树人代替他们。',
+    //    deal: scene => {
+    //
+    //        let count = scene.allRole(true, true).length;
+    //        let roles = scene.allRole(true);
+    //
+    //        for (let role of roles) {
+    //            role.current = 0;
+    //        }
+    //
+    //        for (let i = 0; i < count; i++) {
+    //            scene.addEnemyMinion({
+    //                name: '树人',
+    //                ap: 2,
+    //                hp: 2
+    //            });
+    //        }
+    //
+    //        for (let i = 0; i < (roles.length - count); i++) {
+    //            scene.addMinion({
+    //                name: '树人',
+    //                ap: 2,
+    //                hp: 2
+    //            });
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '纳鲁之光',
+    //    cost: 1,
+    //    description: '恢复3点生命值。如果该目标仍处于受伤状态，则召唤一个圣光护卫者。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole();
+    //
+    //        role.restoreHealth(3);
+    //
+    //        if ('current' in role && role.current < role.hp || !('current' in role) && role.hp < 30) {
+    //            scene.addMinion({
+    //                name: '圣光护卫者',
+    //                ap: 1,
+    //                hp: 3
+    //            })
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '暗色炸弹',
+    //    cost: 2,
+    //    description: '造成3点伤害。',
+    //    deal: scene => {
+    //        let role = scene.randRole();
+    //
+    //        if (role) {
+    //            role.dealDamage(3);
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '不稳定的传送门',
+    //    cost: 2,
+    //    description: '将一个随机随从卡牌加入你的手牌。该随从的法力值消耗减少(3)点。',
+    //    deal: scene => {
+    //        scene.hero.supplementCard(1);
+    //    }
+    //},
+    //{
+    //    name: '光明圣印',
+    //    cost: 2,
+    //    description: '为你的英雄恢复4点生命值，并在本回合中获得+2攻击力。',
+    //    deal: scene => {
+    //        scene.hero.restoreHealth(4);
+    //        scene.hero.ap += 2;
+    //    }
+    //},
+    //{
+    //    name: '假死',
+    //    cost: 2,
+    //    description: '触发所有友方随从亡语效果。'
+    //},
+    //{
+    //    name: '连环爆裂',
+    //    cost: 2,
+    //    description: '造成3到6点伤害，过载：(1)。',
+    //    deal: scene => {
+    //        let role = scene.randRole();
+    //
+    //        if (role) {
+    //            role.dealDamage(3 + Math.floor(Math.random() * 3));
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '烈焰轰击',
+    //    cost: 2,
+    //    description: '对一个随机敌方随从造成4点伤害。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true, true);
+    //
+    //        if (role) {
+    //            role.dealDamage(4);
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '召唤宠物',
+    //    cost: 2,
+    //    description: '抽一张牌。如果该牌是野兽牌，则其法力值消耗减少(4)点。',
+    //    deal: scene => {
+    //        scene.hero.drawCard(1);
+    //    }
+    //},
+    //{
+    //    name: '弹射之刃',
+    //    cost: 3,
+    //    description: '对一个随机随从造成1点伤害。重复此效果，直到某个随从死亡。',
+    //    deal: scene => {
+    //
+    //        let role = null;
+    //
+    //        do {
+    //
+    //            role = scene.randRole(true);
+    //
+    //            if (role) {
+    //                role.dealDamage(1);
+    //            }
+    //        }
+    //        while (role && !role.dead)
+    //    }
+    //},
+    //{
+    //    name: '维纶的恩泽',
+    //    cost: 3,
+    //    description: '使一个随从获得+2/+4并具有法术伤害+1。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true);
+    //
+    //        if (role) {
+    //            role.ap += 2;
+    //            role.hp += 4;
+    //            role.current += 4;
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '作战动员',
+    //    cost: 3,
+    //    description: '召唤三个1/1白银之手新兵，装备一把1/4的武器。',
+    //    deal: scene => {
+    //
+    //        scene.addMinion({
+    //            name: '白银之手新兵',
+    //            ap: 1,
+    //            hp: 1
+    //        });
+    //
+    //        scene.addMinion({
+    //            name: '白银之手新兵',
+    //            ap: 1,
+    //            hp: 1
+    //        });
+    //
+    //        scene.addMinion({
+    //            name: '白银之手新兵',
+    //            ap: 1,
+    //            hp: 1
+    //        });
+    //    }
+    //},
+    //{
+    //    name: '暗中破坏',
+    //    cost: 4,
+    //    description: '消灭一个随机敌方随从，连击：并且摧毁你的对手的武器。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true, true);
+    //
+    //        if (role) {
+    //            role.current = 0;
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '麦迪文的残影',
+    //    cost: 4,
+    //    description: '复制你的所有随从，并将其置入你的手牌。',
+    //    deal: scene => {
+    //        let count = scene.friendlyMinions.filter(a => !a.dead).length;
+    //
+    //        scene.hero.supplementCard(count);
+    //    }
+    //},
+    //{
+    //    name: '先祖召唤',
+    //    cost: 4,
+    //    description: '每个玩家从手牌中将一个随机随从置入战场。'
+    //},
+    //{
+    //    name: '小鬼爆破',
+    //    cost: 4,
+    //    description: '对一个随从造成2-4点伤害。每造成1点伤害，便召唤一个1/1的小鬼。',
+    //    deal: scene => {
+    //
+    //        let damage = 2 + Math.floor(Math.random() * 3);
+    //        let role = scene.randRole(true);
+    //
+    //        if(role){
+    //
+    //            role.dealDamage(damage);
+    //
+    //            for (let i = 0; i < damage; i++) {
+    //                scene.addMinion({
+    //                    name: '小鬼',
+    //                    ap: 1,
+    //                    hp: 1
+    //                });
+    //            }
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '修补匠的磨刀油',
+    //    cost: 4,
+    //    description: '使你的武器获得+3攻击力。连击：使一个随机友方随从获得+3攻击力。'
+    //},
+    //{
+    //    name: '恶魔之心',
+    //    cost: 5,
+    //    description: '对一个随从造成5点伤害，如果该随从是友方恶魔，则改为使其获得+5/+5。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true);
+    //
+    //        if (role) {
+    //            role.dealDamage(5);
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '眼镜蛇射击',
+    //    cost: 5,
+    //    description: '对一个随从和敌方英雄造成3点伤害。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true);
+    //
+    //        if (role) {
+    //            role.dealDamage(3);
+    //        }
+    //
+    //        scene.enemy.dealDamage(3);
+    //    }
+    //},
+    //{
+    //    name: '黑暗低语者',
+    //    cost: 6,
+    //    description: '抉择：召唤5个小精灵；或者使一个随从获得+5/+5并具有嘲讽。',
+    //    deal: scene => {
+    //
+    //        if (Math.random() < 0.5) {
+    //
+    //            let role = scene.randRole(true);
+    //
+    //            if (role) {
+    //                role.hp += 5;
+    //                role.current += 5;
+    //                role.ap += 5;
+    //            }
+    //            else {
+    //
+    //                scene.addMinion({
+    //                    name: '小精灵',
+    //                    ap: 1,
+    //                    hp: 1
+    //                });
+    //
+    //                scene.addMinion({
+    //                    name: '小精灵',
+    //                    ap: 1,
+    //                    hp: 1
+    //                });
+    //
+    //                scene.addMinion({
+    //                    name: '小精灵',
+    //                    ap: 1,
+    //                    hp: 1
+    //                });
+    //
+    //                scene.addMinion({
+    //                    name: '小精灵',
+    //                    ap: 1,
+    //                    hp: 1
+    //                });
+    //
+    //                scene.addMinion({
+    //                    name: '小精灵',
+    //                    ap: 1,
+    //                    hp: 1
+    //                });
+    //            }
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '回收',
+    //    cost: 6,
+    //    description: '将一个敌方随从洗回你的对手的牌库。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true, true);
+    //
+    //        if (role) {
+    //            role.current = 0;
+    //            scene.enemy.pushStack(1);
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '圣光炸弹',
+    //    cost: 6,
+    //    description: '对所有随从造成等同于其攻击力的伤害。',
+    //    deal: scene => {
+    //
+    //        let roles = scene.allRole(true);
+    //
+    //        for (let role of roles) {
+    //            role.dealDamage(role.ap);
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '重碾',
+    //    cost: 7,
+    //    description: '消灭一个随从。如果你控制任何受伤的随从，该法术的法力值消耗减少(4)点。',
+    //    deal: scene => {
+    //
+    //        let role = scene.randRole(true, true);
+    //
+    //        if (role) {
+    //            role.current = 0;
+    //        }
+    //    }
+    //},
+    //{
+    //    name: '生命之树',
+    //    cost: 9,
+    //    description: '为所有角色恢复所有生命值。',
+    //    deal: scene => {
+    //
+    //        let roles = scene.allRole();
+    //
+    //        for (let role of roles) {
+    //            if ('current' in role) {
+    //                role.current = role.hp;
+    //            }
+    //            else {
+    //                role.hp = 30;
+    //            }
+    //        }
+    //    }
+    //},
     // 狂野结束
 
     {
