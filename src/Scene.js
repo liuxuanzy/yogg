@@ -7,6 +7,7 @@
 
 const Hero = require('./Hero');
 const Minion = require('./Minion');
+const Magic = require('./Magic');
 
 /**
  * 场景
@@ -348,5 +349,14 @@ module.exports = class Scene {
         }));
 
         return arr.join('\n');
+    }
+
+    /**
+     * 创建法术队列
+     *
+     * @param n 法术的数量
+     */
+    createMagic(n) {
+        return new Magic(this, n);
     }
 };

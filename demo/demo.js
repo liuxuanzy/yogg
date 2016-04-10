@@ -3,7 +3,6 @@
 'use strict';
 
 const Scene = require('../src/Scene');
-const Magic = require('../src/Magic');
 
 let scene = new Scene({
     hero: {
@@ -47,7 +46,7 @@ let scene = new Scene({
     ]
 });
 
-var magic = new Magic(scene, 29);
+var magic = scene.createMagic(29);
 console.log('生成的法术为：' + magic.list.map(a => a.name));
 
 console.log('\n执行前场景：');
