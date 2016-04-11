@@ -1,9 +1,0 @@
-{
-  "name": "yogg",
-  "version": "0.0.1",
-  "main": "demo",
-  "license": "MIT",
-  "dependencies": {
-    "minimist": "^1.2.0"
-  }
-}
