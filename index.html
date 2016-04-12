@@ -7,6 +7,27 @@
     </head>
     <body>
         <div id="scene" class=""></div>
+        <div class="note">
+            <header>说明：</header>
+            <main>
+                <p>1、不存在特别类型的生物（恶魔、野兽、鱼人），以下法术没有效果或者按照部分效果计算：
+                    <span class="card">图腾之力、牺牲契约、狂野怒火、亡者归来、恶魔之火（按伤害）、恶魔之心（按伤害）、恶魔之怒（全部造成伤害）、亚煞极印记（不抽牌）</span>，
+                    这一点对猎人和术士以及鱼人卡组影响比较大，以上卡组可以略微提高一些期望。
+                </p>
+                <p>2、不保留随处的白板身材，以下法术的效果取随从的当前身材<span class="card">沉默、先祖之魂、转生</span>，考虑到改变身材的法术不多，这一点大约认为期望是0。</p>
+                <p>
+                    3、对于召唤或者复活随机随从的，如果引用确定，身材取与费用相同的身材，不确定的一律取4/5身材，涉及法术：
+                    <span class="card">控心术、复活术、末日灾祸、先祖召唤、禁忌畸变</span>。
+                </p>
+                <p>4、忽略法术伤害，所有法术均不计算法伤加成，涉及法术：<span class="card">奥术冲击、维纶的恩泽</span></p>
+                <p>5、<span class="card">照明弹</span>不计算摧毁对方奥秘的效果。</p>
+                <p>6、<span class="card">伺机待发</span>认为是添加了3个水晶，如果没有法术会浪费掉，但不值得为一张卡添加变量。</p>
+                <p>7、<span class="card">假死</span>不触发亡语，这张卡相当于无效。</p>
+                <p>8、<span class="card">子弹上膛、暗影形态、弃暗投明</span>无效。</p>
+                <p>9、<span class="card">神圣愤怒</span>随机从0 - 10费中选一个作为伤害。</p>
+            </main>
+            <footer></footer>
+        </div>
         <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/2-0-6/esl.js"></script>
         <script src="asset/common/config.js"></script>
         <script>
@@ -16,6 +37,7 @@
         </script>
         <script src="dep/jquery-1.10.2.min.js"></script>
         <script>
+            localStorage.setItem('scene', '{"1460355080065":{"name":"测试数据","scene":{"hero":{"hp":30,"armor":40,"stack":21,"cards":4,"name":"我方英雄"},"enemy":{"hp":20,"stack":15,"cards":3,"name":"敌方英雄"},"friendlyMinions":[{"hp":6,"ap":5,"name":"格斗士"}],"enemyMinions":[{"hp":4,"ap":5,"name":"囚徒"},{"hp":4,"ap":0,"name":"游学者、秋日"},{"hp":6,"ap":6,"name":"弗丁","shield":true},{"hp":7,"ap":6,"name":"毕游侠"}]}}}');
             require(['yogg/index/index'], function (app) {
                 app();
             });
