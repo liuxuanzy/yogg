@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>尤格萨隆模拟器</title>
+        <link rel="stylesheet" href="http://liuxuanzy.github.io/yogg/asset/yogg/index/index.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="scene" class=""></div>
+        <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/2-0-6/esl.js"></script>
+        <script src="http://liuxuanzy.github.io/yogg/asset/common/config.js"></script>
+        <script>
+            define('STATIC_ROOT', 'http://liuxuanzy.github.io/yogg/asset');
+            require.config({
+                baseUrl: 'http://liuxuanzy.github.io/yogg/asset'
+            });
+        </script>
+        <script src="http://liuxuanzy.github.io/yogg/dep/jquery-1.10.2.min.js"></script>
+        <script>
+            require(['yogg/index/index'], function (SceneLoader) {
+                SceneLoader.create(document.getElementById('scene'));
+            });
+        </script>
+    </body>
+</html>
